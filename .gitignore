@@ -3,8 +3,8 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
-.idea/.idea.WPFWeather/.idea/
+.idea/.idea.WPFTodo/.idea/
 
 .vs/
 
-WPFWeather/appsettings.json
+WPFTodo/appsettings.json
