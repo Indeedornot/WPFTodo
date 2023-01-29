@@ -50,8 +50,6 @@ public partial class App : Application {
     protected override void OnStartup(StartupEventArgs e) {
         _host.Start();
 
-        SetInitialView();
-
         MainWindow = _host.Services.GetRequiredService<MainWindow>();
         MainWindow.Show();
 
@@ -62,18 +60,6 @@ public partial class App : Application {
         SavePersistentData();
         _host.Dispose();
         base.OnExit(e);
-    }
-
-    private void SetInitialView() {
-        IPersistentDataManager persistentDataManager = _host.Services.GetRequiredService<IPersistentDataManager>();
-        PersistentData? persistentData = null;
-        try {
-            persistentData = persistentDataManager.GetPersistentData();
-        }
-        catch (Exception) { }
-
-        NavigationService<HomeViewModel> navigationService = _host.Services.GetRequiredService<NavigationService<HomeViewModel>>();
-        navigationService.Navigate();
     }
 
     private void SavePersistentData() {
