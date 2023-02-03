@@ -9,8 +9,8 @@
 	xmlns:views="clr-namespace:WPFTodo.Views"
 	xmlns:vms="clr-namespace:WPFTodo.ViewModels"
 	Title="MainWindow"
-	Width="800"
-	Height="450"
+	Width="900"
+	Height="1185"
 	mc:Ignorable="d">
 	<Grid d:DataContext="{d:DesignInstance vms:MainViewModel}">
 		<Grid.Resources>

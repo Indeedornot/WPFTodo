@@ -13,15 +13,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WPFTodo.UserControls;
+using WPFTodo.Commands;
+
+namespace WPFTodo.Views;
 
 /// <summary>
-/// Interaction logic for Todo.xaml
+/// Interaction logic for AddTodoView.xaml
 /// </summary>
-public partial class Todo : UserControl
-{
-    public Todo()
-    {
+public partial class AddTodoView : UserControl {
+    public AddTodoView() {
         InitializeComponent();
     }
 }

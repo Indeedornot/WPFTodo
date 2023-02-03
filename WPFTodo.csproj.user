@@ -7,7 +7,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="UserControls\Todo.xaml.cs">
+    <Compile Update="Views\AddTodoView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\TodoDisplayView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\HomeView.xaml.cs">
@@ -18,7 +21,10 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UserControls\Todo.xaml">
+    <Page Update="Views\AddTodoView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\TodoDisplayView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\HomeView.xaml">

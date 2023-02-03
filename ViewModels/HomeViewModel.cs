@@ -9,6 +9,7 @@ namespace WPFTodo.ViewModels;
 
 class HomeViewModel : ViewModelBase {
     public ObservableCollection<TodoDisplayViewModel> TodoDisplayViewModels { get; }
+    public AddTodoViewModel AddTodoViewModel { get; }
 
     private readonly AppStore _appStore;
     public HomeViewModel(AppStore appStore) {
@@ -17,6 +18,7 @@ class HomeViewModel : ViewModelBase {
         var todoDisplayVMs = _appStore.Todos.Select(todo => NewTodoDisplayVM(todo));
         TodoDisplayViewModels = new(todoDisplayVMs);
 
+        AddTodoViewModel = new(_appStore);
 
         _appStore.TodoAdded += OnTodoAdded;
         _appStore.TodoRemoved += OnTodoRemoved;

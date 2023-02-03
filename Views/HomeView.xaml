@@ -60,6 +60,9 @@
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 
+					<local:AddTodoView
+						Grid.Row="1"
+						DataContext="{Binding AddTodoViewModel}" />
 				</Grid>
 			</Grid>
 

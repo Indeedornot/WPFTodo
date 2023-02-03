@@ -1,0 +1,126 @@
+﻿<UserControl
+	x:Class="WPFTodo.Views.AddTodoView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:attached="clr-namespace:WPFTodo.AttachedProp"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:WPFTodo.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vms="clr-namespace:WPFTodo.ViewModels"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+	mc:Ignorable="d">
+	<Grid d:DataContext="{d:DesignInstance vms:AddTodoViewModel}">
+		<Grid.Resources>
+			<ControlTemplate x:Key="TitleInput">
+				<Grid d:DataContext="{d:DesignInstance vms:AddTodoViewModel}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="auto" />
+					</Grid.ColumnDefinitions>
+					<TextBox
+						Grid.Column="0"
+						Padding="5,0,0,0"
+						VerticalContentAlignment="Center"
+						Background="Transparent"
+						BorderThickness="0"
+						CaretBrush="{StaticResource BrushFgDefault}"
+						FontSize="35"
+						Foreground="{StaticResource BrushFgDefault}"
+						Tag="Add new Todo"
+						Template="{StaticResource TextBoxWatermarkTemplate}"
+						Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" />
+					<Viewbox
+						Grid.Column="1"
+						HorizontalAlignment="Right"
+						Stretch="Uniform">
+						<Button
+							Width="40"
+							Height="40"
+							Margin="10"
+							attached:RoundedCorners.Radius="{StaticResource RoundedSmRadius}"
+							Background="{StaticResource BrushBgOverlay}"
+							BorderThickness="0"
+							Command="{Binding ConfirmTitleCommand}">
+							<Button.Style>
+								<Style TargetType="{x:Type Button}">
+									<Style.Triggers>
+										<Trigger Property="IsEnabled" Value="False">
+											<Setter Property="Visibility" Value="Collapsed" />
+										</Trigger>
+									</Style.Triggers>
+								</Style>
+							</Button.Style>
+						</Button>
+					</Viewbox>
+				</Grid>
+			</ControlTemplate>
+			<ControlTemplate x:Key="DescriptionInput">
+				<Grid d:DataContext="{d:DesignInstance vms:AddTodoViewModel}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="auto" />
+					</Grid.ColumnDefinitions>
+					<TextBox
+						Grid.Column="0"
+						Padding="5,0,0,0"
+						VerticalContentAlignment="Center"
+						Background="Transparent"
+						BorderThickness="0"
+						CaretBrush="{StaticResource BrushFgDefault}"
+						FontSize="35"
+						Foreground="{StaticResource BrushFgDefault}"
+						Tag="Description"
+						Template="{StaticResource TextBoxWatermarkTemplate}"
+						Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+					<Viewbox
+						Grid.Column="1"
+						HorizontalAlignment="Right"
+						Stretch="Uniform">
+						<Grid
+							Width="40"
+							Height="40"
+							Margin="10">
+							<Button
+								Width="12"
+								HorizontalAlignment="Left"
+								attached:RoundedCorners.Left="{StaticResource RoundedSmValue}"
+								Background="{StaticResource BrushBgDefault}"
+								BorderThickness="0"
+								Command="{Binding EditTittleCommand}" />
+							<Button
+								Width="28"
+								HorizontalAlignment="Right"
+								attached:RoundedCorners.Right="{StaticResource RoundedSmValue}"
+								Background="{StaticResource BrushBgOverlay}"
+								BorderThickness="0"
+								Command="{Binding AddTodoCommand}" />
+						</Grid>
+					</Viewbox>
+				</Grid>
+			</ControlTemplate>
+		</Grid.Resources>
+		<Border
+			Grid.ColumnSpan="2"
+			attached:RoundedCorners.Radius="{StaticResource RoundedLgRadius}"
+			Background="{StaticResource BrushBgSubtle}" />
+		<ContentControl>
+			<ContentControl.Style>
+				<Style TargetType="{x:Type ContentControl}">
+					<Style.Triggers>
+						<DataTrigger
+							Binding="{Binding TitleConfirmed}"
+							Value="True">
+							<Setter Property="Template" Value="{StaticResource DescriptionInput}" />
+						</DataTrigger>
+						<DataTrigger
+							Binding="{Binding TitleConfirmed}"
+							Value="False">
+							<Setter Property="Template" Value="{StaticResource TitleInput}" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</ContentControl.Style>
+		</ContentControl>
+	</Grid>
+</UserControl>
