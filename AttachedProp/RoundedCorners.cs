@@ -44,7 +44,7 @@ public static class RoundedCorners {
     }
 
     private static void InitialRadiusSet(DependencyObject d, DependencyPropertyChangedEventArgs e) {
-        var element = d as Control;
+        var element = d as FrameworkElement;
         if (element == null) return;
 
         element.Loaded -= LoadedHandler;
@@ -59,7 +59,7 @@ public static class RoundedCorners {
     }
 
     private static void LoadedHandler(object sender, RoutedEventArgs e) {
-        var element = sender as Control;
+        var element = sender as FrameworkElement;
         if (element == null) return;
 
         //Pass it off to visibility handler
@@ -79,7 +79,7 @@ public static class RoundedCorners {
         border.CornerRadius = radius;
     }
     private static void IsVisibleChangedHandler(object sender, DependencyPropertyChangedEventArgs e) {
-        var element = sender as Control;
+        var element = sender as FrameworkElement;
         if (element == null) return;
 
         //Ensure children are loaded
