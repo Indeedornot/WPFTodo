@@ -2,9 +2,12 @@
 	x:Class="WPFTodo.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:local="clr-namespace:WPFTodo">
+	xmlns:local="clr-namespace:WPFTodo"
+	xmlns:sys="clr-namespace:System;assembly=netstandard"
+	xmlns:xamlSys="http://schemas.microsoft.com/netfx/2009/xaml/presentation">
 	<Application.Resources>
 		<ResourceDictionary>
+			<!--#region colors-->
 			<Color
 				x:Key="ColorBgDark"
 				A="255"
@@ -131,7 +134,9 @@
 				B="255"
 				G="255"
 				R="255" />
+			<!--#endregion-->
 
+			<!--#region brushes-->
 			<SolidColorBrush
 				x:Key="BrushBgDark"
 				Color="{StaticResource ColorBgDark}" />
@@ -195,14 +200,20 @@
 			<SolidColorBrush
 				x:Key="BrushBorderEmphasis"
 				Color="{StaticResource ColorBorderEmphasis}" />
+			<!--#endregion-->
 
-			<Style x:Key="RoundBorder">
-				<Style.Resources>
-					<Style TargetType="Border">
-						<Setter Property="CornerRadius" Value="3" />
-					</Style>
-				</Style.Resources>
-			</Style>
+			<!--#region styles-->
+
+			<!--#region rounded corners-->
+			<sys:Double x:Key="RoundedSmValue">4</sys:Double>
+			<xamlSys:CornerRadius x:Key="RoundedSmRadius">4,4,4,4</xamlSys:CornerRadius>
+
+			<sys:Double x:Key="RoundedMdValue">12</sys:Double>
+			<xamlSys:CornerRadius x:Key="RoundedMdRadius">12,12,12,12</xamlSys:CornerRadius>
+
+			<sys:Double x:Key="RoundedLgValue">24</sys:Double>
+			<xamlSys:CornerRadius x:Key="RoundedLgRadius">24,24,24,24</xamlSys:CornerRadius>
+			<!--#endregion-->
 
 			<Style
 				x:Key="Spinner"
@@ -240,22 +251,24 @@
 						BorderBrush="{TemplateBinding Border.BorderBrush}"
 						BorderThickness="{TemplateBinding Border.BorderThickness}"
 						SnapsToDevicePixels="True" />
-					<ScrollViewer
-						x:Name="PART_ContentHost"
-						Margin="5,0,0,0"
-						VerticalAlignment="Center"
-						Focusable="False" />
+					<Grid Margin="{TemplateBinding Padding}">
+						<ScrollViewer
+							x:Name="PART_ContentHost"
+							Margin="2,0,0,0"
+							VerticalAlignment="Center"
+							Focusable="False" />
 
-					<Label
-						x:Name="WaterMarkLabel"
-						Margin="5,0,0,0"
-						Padding="0"
-						VerticalAlignment="Center"
-						Content="{TemplateBinding Tag}"
-						Focusable="False"
-						FontFamily="Arial"
-						Foreground="Gray"
-						Visibility="Hidden" />
+						<Label
+							x:Name="WaterMarkLabel"
+							Margin="10,0,0,0"
+							Padding="0"
+							VerticalAlignment="Center"
+							Content="{TemplateBinding Tag}"
+							Focusable="False"
+							FontFamily="Arial"
+							Foreground="Gray"
+							Visibility="Hidden" />
+					</Grid>
 				</Grid>
 
 				<ControlTemplate.Triggers>
@@ -269,6 +282,7 @@
 						<Setter Property="Foreground" Value="DimGray" />
 					</Trigger>
 
+
 					<Trigger Property="UIElement.IsEnabled" Value="False">
 						<Setter TargetName="border" Property="UIElement.Opacity" Value="0.56" />
 					</Trigger>
@@ -281,19 +295,7 @@
 					</Trigger>
 				</ControlTemplate.Triggers>
 			</ControlTemplate>
-
-			<Style
-				x:Key="TextBoxWatermark"
-				TargetType="{x:Type TextBox}">
-				<Setter Property="Template" Value="{StaticResource TextBoxWatermarkTemplate}" />
-			</Style>
-
-			<Style
-				x:Key="RoundTextBoxWatermark"
-				BasedOn="{StaticResource RoundBorder}"
-				TargetType="{x:Type TextBox}">
-				<Setter Property="Template" Value="{StaticResource TextBoxWatermarkTemplate}" />
-			</Style>
+			<!--#endregion-->
 		</ResourceDictionary>
 	</Application.Resources>
 </Application>
