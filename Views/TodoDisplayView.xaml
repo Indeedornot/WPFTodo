@@ -1,0 +1,83 @@
+﻿<UserControl
+	x:Class="WPFTodo.Views.TodoDisplayView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:attached="clr-namespace:WPFTodo.AttachedProp"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+	xmlns:local="clr-namespace:WPFTodo.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vms="clr-namespace:WPFTodo.ViewModels"
+	attached:RoundedCorners.Radius="{StaticResource RoundedLgRadius}"
+	d:DesignWidth="760"
+	Background="{StaticResource BrushBgDefault}"
+	mc:Ignorable="d">
+	<Grid
+		Margin="16,18"
+		d:DataContext="{d:DesignInstance vms:TodoDisplayViewModel}">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="auto" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions />
+
+		<Viewbox HorizontalAlignment="Left">
+			<StackPanel>
+				<TextBlock
+					Height="40"
+					d:Text="Tell Mark"
+					FontSize="35"
+					FontWeight="SemiBold"
+					Foreground="{StaticResource BrushFgDefault}"
+					Text="{Binding Todo.Title}"
+					TextTrimming="CharacterEllipsis" />
+
+				<TextBlock
+					VerticalAlignment="Stretch"
+					d:Text="Tell Mark the details of the project that he has been recently included in"
+					FontSize="20"
+					Foreground="{StaticResource BrushFgMuted}"
+					Text="{Binding Todo.Description}"
+					TextWrapping="Wrap" />
+			</StackPanel>
+		</Viewbox>
+
+		<Viewbox
+			Grid.Column="1"
+			VerticalAlignment="Top"
+			Stretch="Uniform">
+			<Button
+				Width="80"
+				Height="80"
+				attached:RoundedCorners.Radius="{StaticResource RoundedLgRadius}"
+				BorderBrush="{StaticResource BrushBgSubtle}"
+				Command="{Binding ToggleCompleted}">
+				<Button.Style>
+					<Style TargetType="Button">
+						<Style.Triggers>
+							<DataTrigger
+								Binding="{Binding Todo.IsCompleted}"
+								Value="False">
+								<Setter Property="Background" Value="{StaticResource BrushBgHover}" />
+								<Setter Property="Foreground" Value="{StaticResource BrushFgIconBg}" />
+							</DataTrigger>
+							<DataTrigger
+								Binding="{Binding Todo.IsCompleted}"
+								Value="True">
+								<Setter Property="Background" Value="{StaticResource BrushBgAccent}" />
+								<Setter Property="Foreground" Value="{StaticResource BrushFgIcon}" />
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
+				<Viewbox
+					Width="50"
+					Margin="7"
+					Stretch="Fill">
+					<icons:PackIconUnicons Kind="Check" />
+				</Viewbox>
+			</Button>
+
+		</Viewbox>
+	</Grid>
+</UserControl>
