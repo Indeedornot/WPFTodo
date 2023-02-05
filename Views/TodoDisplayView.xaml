@@ -8,12 +8,12 @@
 	xmlns:local="clr-namespace:WPFTodo.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vms="clr-namespace:WPFTodo.ViewModels"
-	attached:RoundedCorners.Radius="{StaticResource RoundedLgRadius}"
+	attached:RoundedCorners.Radius="{StaticResource RoundedMdRadius}"
 	d:DesignWidth="760"
 	Background="{StaticResource BrushBgDefault}"
 	mc:Ignorable="d">
 	<Grid
-		Margin="16,18"
+		Margin="14,14"
 		d:DataContext="{d:DesignInstance vms:TodoDisplayViewModel}">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />

@@ -65,6 +65,7 @@ public partial class App : Application {
     private void SavePersistentData() {
         var appStore = _host.Services.GetRequiredService<AppStore>();
         var persistentDataManager = _host.Services.GetRequiredService<IPersistentDataManager>();
-        //...
+
+        persistentDataManager.SaveData(appStore.PersistentData);
     }
 }

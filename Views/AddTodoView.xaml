@@ -25,7 +25,6 @@
 						Background="Transparent"
 						BorderThickness="0"
 						CaretBrush="{StaticResource BrushFgDefault}"
-						FontSize="35"
 						Foreground="{StaticResource BrushFgDefault}"
 						Tag="Add new Todo"
 						Template="{StaticResource TextBoxWatermarkTemplate}"
@@ -102,7 +101,7 @@
 		</Grid.Resources>
 		<Border
 			Grid.ColumnSpan="2"
-			attached:RoundedCorners.Radius="{StaticResource RoundedLgRadius}"
+			attached:RoundedCorners.Radius="{StaticResource RoundedMdRadius}"
 			Background="{StaticResource BrushBgSubtle}" />
 		<ContentControl>
 			<ContentControl.Style>

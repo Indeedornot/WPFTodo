@@ -25,6 +25,9 @@ public class AppStore {
     public event Action<bool> LoadingChanged;
 
     private List<Todo> todos { get; set; } = new();
+    /// <summary>
+    /// Collection of todos, Sorted by AddedAt
+    /// </summary>
     public IEnumerable<Todo> Todos {
         get => todos; private set {
             todos = value.ToList();
@@ -82,18 +85,9 @@ public class AppStore {
         IsLoading = true;
 
         PersistentData? persistentData = GetPersistentData();
-        todos = persistentData?.Todos ?? new List<Todo>() {
-                new(title: "First todo",  description: "This is the first todo",   completed: true),
-                new(title: "Second todo", description: "This is the second todo ", completed: true ),
-                new(title: "Third todo",  description: "This is the third todo  "),
-                new(title: "Fourth todo", description: "This is the fourth todo ", completed: true ),
-                new(title: "Fifth todo",  description: "This is the fifth todo  "),
-                new(title: "Sixth todo",  description: "This is the sixth todo  ", completed: true ),
-                new(title: "Seventh todo",description: "This is the seventh todo" ),
-                new(title: "Eighth todo", description: "This is the eighth todo ", completed: true ),
-                new(title: "Ninth todo",  description: "This is the ninth todo  " ),
-                new(title: "Tenth todo",  description: "This is the tenth todo  ", completed: true ),
-        };
+        if (persistentData != null) {
+            todos = persistentData.Todos.OrderByDescending(x => x.AddedAt).ToList();
+        }
 
         IsLoading = false;
     }
@@ -106,6 +100,10 @@ public class AppStore {
             return null;
         }
     }
+
+    public PersistentData PersistentData => new() {
+        Todos = todos.OrderByDescending(x => x.AddedAt).ToList()
+    };
 
     #endregion
 }

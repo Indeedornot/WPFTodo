@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:attached="clr-namespace:WPFTodo.AttachedProp"
 	xmlns:controls="clr-namespace:WPFTodo.UserControls"
+	xmlns:converters="clr-namespace:WPFTodo.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:WPFTodo.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,6 +15,98 @@
 	<Grid
 		d:DataContext="{d:DesignInstance vms:HomeViewModel}"
 		Background="{StaticResource BrushBgDefault}">
+		<Grid.Resources>
+			<converters:EnumToCollectionConverter x:Key="EnumToColl" />
+			<ControlTemplate
+				x:Key="ComboBoxStyle"
+				TargetType="{x:Type ComboBox}">
+				<Grid>
+					<ToggleButton
+						x:Name="ToggleButton"
+						Focusable="false"
+						IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+						<ToggleButton.Template>
+							<ControlTemplate TargetType="{x:Type ToggleButton}">
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="25" />
+									</Grid.ColumnDefinitions>
+
+									<!--  Whole Background  -->
+									<Border
+										x:Name="Border"
+										Grid.ColumnSpan="2"
+										Background="{StaticResource BrushBgDefault}"
+										CornerRadius="{StaticResource RoundedSmRadius}" />
+
+									<!--  Togglebutton Icon  -->
+									<Path
+										x:Name="Arrow"
+										Grid.Column="1"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										Data="M 0 0 L 4 4 L 8 0 Z"
+										Fill="{StaticResource BrushFgMuted}" />
+								</Grid>
+								<ControlTemplate.Triggers>
+									<Trigger Property="ToggleButton.IsMouseOver" Value="true">
+										<Setter TargetName="Border" Property="Background" Value="{StaticResource BrushBgHover}" />
+									</Trigger>
+									<Trigger Property="ToggleButton.IsChecked" Value="true">
+										<Setter TargetName="Border" Property="Background" Value="{StaticResource BrushBgHover}" />
+									</Trigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</ToggleButton.Template>
+					</ToggleButton>
+
+					<!--  Selected Content  -->
+					<ContentPresenter
+						Name="ContentSite"
+						Margin="4,3,25,3"
+						Content="{TemplateBinding SelectionBoxItem}"
+						ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+						ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+						IsHitTestVisible="False"
+						TextBlock.Foreground="{StaticResource BrushFgDefault}" />
+					<!--<TextBox
+						x:Name="PART_EditableTextBox"
+						IsReadOnly="{TemplateBinding IsReadOnly}"
+						Visibility="Hidden" />-->
+
+					<!--  Selectable  -->
+					<Popup
+						Name="Popup"
+						AllowsTransparency="True"
+						Focusable="False"
+						HorizontalOffset="{Binding ActualWidth, ElementName=ToggleButton}"
+						IsOpen="{TemplateBinding IsDropDownOpen}"
+						Placement="Left"
+						PopupAnimation="Slide"
+						VerticalOffset="{Binding ActualHeight, ElementName=ToggleButton}">
+						<Grid
+							Name="DropDown"
+							MinWidth="{TemplateBinding ActualWidth}"
+							MaxHeight="{TemplateBinding MaxDropDownHeight}"
+							SnapsToDevicePixels="True">
+							<Border
+								x:Name="DropDownBorder"
+								Margin="0,2,0,0"
+								Background="{StaticResource BrushBgHover}"
+								CornerRadius="{StaticResource RoundedSmRadius}" />
+							<ScrollViewer
+								Margin="0,2,0,0"
+								Padding="0,5"
+								Foreground="{StaticResource BrushFgDefault}"
+								SnapsToDevicePixels="True">
+								<StackPanel IsItemsHost="True" />
+							</ScrollViewer>
+						</Grid>
+					</Popup>
+				</Grid>
+			</ControlTemplate>
+		</Grid.Resources>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition
 				MinWidth="35"
@@ -62,7 +155,8 @@
 
 					<local:AddTodoView
 						Grid.Row="1"
-						DataContext="{Binding AddTodoViewModel}" />
+						DataContext="{Binding AddTodoViewModel}"
+						FontSize="25" />
 				</Grid>
 			</Grid>
 
@@ -114,17 +208,13 @@
 							HorizontalAlignment="Right"
 							VerticalAlignment="Bottom"
 							Stretch="Uniform">
-							<Border
-								attached:RoundedCorners.Radius="{StaticResource RoundedSmRadius}"
-								Background="{StaticResource BrushBgDefault}">
-								<TextBlock
-									Margin="4,0"
-									VerticalAlignment="Center"
-									FontWeight="SemiBold"
-									Foreground="{StaticResource BrushFgDefault}">
-									Sort by
-								</TextBlock>
-							</Border>
+							<ComboBox
+								DisplayMemberPath="Description"
+								FontWeight="SemiBold"
+								ItemsSource="{Binding SortBy, Converter={StaticResource EnumToColl}, Mode=OneTime}"
+								SelectedValue="{Binding SortBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								SelectedValuePath="Value"
+								Template="{StaticResource ComboBoxStyle}" />
 						</Viewbox>
 
 					</Grid>
@@ -139,7 +229,7 @@
 						<ListView.ItemTemplate>
 							<DataTemplate>
 								<local:TodoDisplayView
-									Height="80"
+									Height="70"
 									Margin="4,1"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Stretch" />
