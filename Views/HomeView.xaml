@@ -225,14 +225,15 @@
 						HorizontalContentAlignment="Stretch"
 						Background="Transparent"
 						BorderThickness="0"
-						ItemsSource="{Binding TodoDisplayViewModels}">
+						ItemsSource="{Binding TodoDisplayViewModels}"
+						ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 						<ListView.ItemTemplate>
 							<DataTemplate>
 								<local:TodoDisplayView
-									Height="70"
+									Height="80"
 									Margin="4,1"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Stretch" />
+									DescriptionFontSize="15"
+									TitleFontSize="20" />
 							</DataTemplate>
 						</ListView.ItemTemplate>
 					</ListView>

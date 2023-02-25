@@ -7,77 +7,133 @@
 	xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
 	xmlns:local="clr-namespace:WPFTodo.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:system="clr-namespace:System;assembly=netstandard"
 	xmlns:vms="clr-namespace:WPFTodo.ViewModels"
-	attached:RoundedCorners.Radius="{StaticResource RoundedMdRadius}"
+	attached:MouseSwipe.LeftCommand="{Binding OpenMoreMenu}"
+	attached:MouseSwipe.RightCommand="{Binding CloseMoreMenu}"
+	d:DataContext="{d:DesignInstance vms:TodoDisplayViewModel}"
 	d:DesignWidth="760"
-	Background="{StaticResource BrushBgDefault}"
 	mc:Ignorable="d">
-	<Grid
-		Margin="14,14"
-		d:DataContext="{d:DesignInstance vms:TodoDisplayViewModel}">
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="auto" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions />
+	<UserControl.Resources>
+		<BooleanToVisibilityConverter x:Key="boolToVis" />
+	</UserControl.Resources>
+	<Grid>
+		<Border
+			x:Name="UserControlMask"
+			attached:RoundedCorners.Radius="{StaticResource RoundedMdRadius}"
+			Background="{StaticResource BrushBgDefault}" />
 
-		<Viewbox HorizontalAlignment="Left">
-			<StackPanel>
-				<TextBlock
-					Height="40"
-					d:Text="Tell Mark"
-					FontSize="35"
-					FontWeight="SemiBold"
-					Foreground="{StaticResource BrushFgDefault}"
-					Text="{Binding Todo.Title}"
-					TextTrimming="CharacterEllipsis" />
+		<Grid>
+			<Grid.OpacityMask>
+				<VisualBrush Visual="{Binding ElementName=UserControlMask}" />
+			</Grid.OpacityMask>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="auto" />
+			</Grid.ColumnDefinitions>
 
-				<TextBlock
-					VerticalAlignment="Stretch"
-					d:Text="Tell Mark the details of the project that he has been recently included in"
-					FontSize="20"
-					Foreground="{StaticResource BrushFgMuted}"
-					Text="{Binding Todo.Description}"
-					TextWrapping="Wrap" />
-			</StackPanel>
-		</Viewbox>
+			<Grid
+				Grid.Column="0"
+				Margin="14,14">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions />
 
-		<Viewbox
-			Grid.Column="1"
-			VerticalAlignment="Top"
-			Stretch="Uniform">
-			<Button
-				Width="80"
-				Height="80"
-				attached:RoundedCorners.Radius="{StaticResource RoundedLgRadius}"
-				BorderBrush="{StaticResource BrushBgSubtle}"
-				Command="{Binding ToggleCompleted}">
-				<Button.Style>
-					<Style TargetType="Button">
-						<Style.Triggers>
-							<DataTrigger
-								Binding="{Binding Todo.IsCompleted}"
-								Value="False">
-								<Setter Property="Background" Value="{StaticResource BrushBgHover}" />
-								<Setter Property="Foreground" Value="{StaticResource BrushFgIconBg}" />
-							</DataTrigger>
-							<DataTrigger
-								Binding="{Binding Todo.IsCompleted}"
-								Value="True">
-								<Setter Property="Background" Value="{StaticResource BrushBgAccent}" />
-								<Setter Property="Foreground" Value="{StaticResource BrushFgIcon}" />
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</Button.Style>
+				<StackPanel>
+					<TextBlock
+						d:Text="Tell Mark"
+						FontSize="{Binding TitleFontSize, RelativeSource={RelativeSource AncestorType=local:TodoDisplayView}}"
+						FontWeight="SemiBold"
+						Foreground="{StaticResource BrushFgDefault}"
+						Text="{Binding Todo.Title}"
+						TextTrimming="CharacterEllipsis" />
+
+					<TextBlock
+						VerticalAlignment="Stretch"
+						d:Text="Tell Mark the details of the project that he has been recently included in"
+						FontSize="{Binding DescriptionFontSize, RelativeSource={RelativeSource AncestorType=local:TodoDisplayView}}"
+						Foreground="{StaticResource BrushFgMuted}"
+						Text="{Binding Todo.Description}"
+						TextWrapping="Wrap" />
+				</StackPanel>
+
 				<Viewbox
-					Width="50"
-					Margin="7"
-					Stretch="Fill">
-					<icons:PackIconUnicons Kind="Check" />
-				</Viewbox>
-			</Button>
+					Grid.Column="1"
+					MaxWidth="60"
+					MaxHeight="60"
+					VerticalAlignment="Top"
+					Stretch="Uniform">
+					<Button
+						Width="80"
+						Height="80"
+						attached:RoundedCorners.Radius="{StaticResource RoundedLgRadius}"
+						BorderBrush="{StaticResource BrushBgSubtle}"
+						Command="{Binding ToggleCompleted}">
+						<Button.Style>
+							<Style TargetType="Button">
+								<Style.Triggers>
+									<DataTrigger
+										Binding="{Binding Todo.IsCompleted}"
+										Value="False">
+										<Setter Property="Background" Value="{StaticResource BrushBgHover}" />
+										<Setter Property="Foreground" Value="{StaticResource BrushFgIconBg}" />
+									</DataTrigger>
+									<DataTrigger
+										Binding="{Binding Todo.IsCompleted}"
+										Value="True">
+										<Setter Property="Background" Value="{StaticResource BrushBgAccent}" />
+										<Setter Property="Foreground" Value="{StaticResource BrushFgIcon}" />
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Button.Style>
+						<Viewbox
+							Width="50"
+							Margin="7"
+							Stretch="Fill">
+							<icons:PackIconUnicons Kind="Check" />
+						</Viewbox>
+					</Button>
 
-		</Viewbox>
+				</Viewbox>
+			</Grid>
+
+			<!--  MoreMenu  -->
+			<Grid
+				Grid.Column="1"
+				RenderTransformOrigin="1,0"
+				Visibility="{Binding DisplayMoreMenu, Converter={StaticResource boolToVis}}">
+				<Border
+					x:Name="MenuMoreMask"
+					attached:RoundedCorners.Right="{StaticResource RoundedMdValue}"
+					Background="{StaticResource BrushBgDark}" />
+
+				<Viewbox>
+					<StackPanel
+						Background="{StaticResource BrushBgDark}"
+						Orientation="Horizontal"
+						TextBlock.Foreground="{StaticResource BrushFgIcon}">
+						<StackPanel.OpacityMask>
+							<VisualBrush Visual="{Binding ElementName=MenuMoreMask}" />
+						</StackPanel.OpacityMask>
+
+						<icons:PackIconIonicons
+							Padding="2"
+							Background="Yellow"
+							Kind="CreateMD" />
+						<icons:PackIconForkAwesome
+							Padding="2"
+							Background="Blue"
+							Kind="FilesOutline" />
+						<icons:PackIconForkAwesome
+							Padding="2"
+							Background="Red"
+							Kind="TrashOutline" />
+					</StackPanel>
+				</Viewbox>
+			</Grid>
+		</Grid>
 	</Grid>
 </UserControl>
