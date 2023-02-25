@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 using WPFTodo.Commands;
+using WPFTodo.Models;
 using WPFTodo.Stores;
 
 namespace WPFTodo.ViewModels;
 public class AddTodoViewModel : ViewModelBase {
-    private string title;
+    private string title = string.Empty;
     public string Title {
         get => title;
         set {
@@ -33,7 +36,7 @@ public class AddTodoViewModel : ViewModelBase {
         }
     }
 
-    private string description;
+    private string description = string.Empty;
     public string Description {
         get => description;
         set {
@@ -46,14 +49,44 @@ public class AddTodoViewModel : ViewModelBase {
     }
     public bool HasDescription => !string.IsNullOrWhiteSpace(Description);
 
-    public AddTodoCommand AddTodoCommand { get; }
-    public EditTittleCommand EditTittleCommand { get; }
-    public ConfirmTitleCommand ConfirmTitleCommand { get; }
+    public RelayCommand AddTodoCommand { get; }
+    public RelayCommand EditTittleCommand { get; }
+    public RelayCommand ConfirmTitleCommand { get; }
 
+    private readonly AppStore _appStore;
     public AddTodoViewModel(AppStore appStore) {
-        AddTodoCommand = new AddTodoCommand(this, appStore);
-        ConfirmTitleCommand = new ConfirmTitleCommand(this);
-        EditTittleCommand = new EditTittleCommand(this);
+        _appStore = appStore;
+
+        AddTodoCommand = new RelayCommand(AddTodo, CanAddTodo);
+        this.PropertyChanged += (_, _) => AddTodoCommand.OnCanExecutedChanged();
+
+        ConfirmTitleCommand = new RelayCommand(ConfirmTitle, CanConfirmTitle);
+        this.PropertyChanged += (_, _) => ConfirmTitleCommand.OnCanExecutedChanged();
+
+        EditTittleCommand = new RelayCommand(EditTitle);
+    }
+
+    private void AddTodo() {
+        Todo newTodo = new(Title, Description);
+        _appStore.AddTodo(newTodo);
+
+        Description = string.Empty;
+        Title = string.Empty;
+        TitleConfirmed = false;
+    }
+    private bool CanAddTodo() {
+        return HasDescription && HasTitle;
+    }
+
+    private void ConfirmTitle() {
+        TitleConfirmed = true;
+    }
+    private bool CanConfirmTitle() {
+        return HasTitle;
+    }
+
+    private void EditTitle() {
+        TitleConfirmed = false;
     }
 }
 
