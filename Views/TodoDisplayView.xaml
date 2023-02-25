@@ -9,8 +9,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:system="clr-namespace:System;assembly=netstandard"
 	xmlns:vms="clr-namespace:WPFTodo.ViewModels"
-	attached:MouseSwipe.LeftCommand="{Binding OpenMoreMenu}"
-	attached:MouseSwipe.RightCommand="{Binding CloseMoreMenu}"
+	attached:MouseSwipe.LeftCommand="{Binding OpenMoreMenuCommand}"
+	attached:MouseSwipe.RightCommand="{Binding CloseMoreMenuCommand}"
 	d:DataContext="{d:DesignInstance vms:TodoDisplayViewModel}"
 	d:DesignWidth="760"
 	mc:Ignorable="d">
@@ -70,7 +70,7 @@
 						Height="80"
 						attached:RoundedCorners.Radius="{StaticResource RoundedLgRadius}"
 						BorderBrush="{StaticResource BrushBgSubtle}"
-						Command="{Binding ToggleCompleted}">
+						Command="{Binding ToggleCompletedCommand}">
 						<Button.Style>
 							<Style TargetType="Button">
 								<Style.Triggers>

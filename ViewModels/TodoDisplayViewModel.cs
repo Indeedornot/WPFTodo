@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -37,18 +37,18 @@ public class TodoDisplayViewModel : ViewModelBase {
         }
     }
 
-    public RelayCommand ToggleCompleted { get; }
-    public RelayCommand OpenMoreMenu { get; set; }
-    public RelayCommand CloseMoreMenu { get; set; }
+    public RelayCommand ToggleCompletedCommand { get; }
+    public RelayCommand OpenMoreMenuCommand { get; set; }
+    public RelayCommand CloseMoreMenuCommand { get; set; }
 
     private readonly AppStore _appStore;
     public TodoDisplayViewModel(Todo todo, AppStore appStore) {
         _todo = todo;
         _appStore = appStore;
 
-        ToggleCompleted = new RelayCommand((_) => ToggleComplete());
-        OpenMoreMenu = new RelayCommand((_) => DisplayMoreMenu = true);
-        CloseMoreMenu = new RelayCommand((_) => DisplayMoreMenu = false);
+        ToggleCompletedCommand = new RelayCommand(ToggleComplete);
+        OpenMoreMenuCommand = new RelayCommand(OpenMoreMenu);
+        CloseMoreMenuCommand = new RelayCommand(CloseMoreMenu);
     }
 
     //using relaycommand due to invoking onpropertychanged
@@ -57,4 +57,13 @@ public class TodoDisplayViewModel : ViewModelBase {
         _appStore.ChangeTodo(_todo);
         OnPropertyChanged(nameof(Todo));
     }
+
+    private void OpenMoreMenu() {
+        DisplayMoreMenu = true;
+    }
+
+    private void CloseMoreMenu() {
+        DisplayMoreMenu = false;
+    }
+
 }
