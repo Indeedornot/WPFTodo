@@ -118,6 +118,11 @@
 						<StackPanel.OpacityMask>
 							<VisualBrush Visual="{Binding ElementName=MenuMoreMask}" />
 						</StackPanel.OpacityMask>
+						<StackPanel.Resources>
+							<Style TargetType="{x:Type Button}">
+								<Setter Property="Foreground" Value="{StaticResource BrushFgIcon}" />
+							</Style>
+						</StackPanel.Resources>
 
 						<icons:PackIconIonicons
 							Padding="2"
@@ -127,10 +132,16 @@
 							Padding="2"
 							Background="Blue"
 							Kind="FilesOutline" />
-						<icons:PackIconForkAwesome
-							Padding="2"
-							Background="Red"
-							Kind="TrashOutline" />
+						<Button
+							Padding="0"
+							BorderThickness="0"
+							Command="{Binding RemoveTodoCommand}">
+							<icons:PackIconForkAwesome
+								Padding="2"
+								Background="Red"
+								Kind="TrashOutline" />
+						</Button>
+
 					</StackPanel>
 				</Viewbox>
 			</Grid>

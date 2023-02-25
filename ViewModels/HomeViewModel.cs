@@ -75,6 +75,7 @@ class HomeViewModel : ViewModelBase {
     }
     private void OnTodoRemoved(Todo todo) {
         var viewModel = TodoDisplayViewModels.First(x => x.Todo.Id == todo.Id);
+        viewModel.Dispose();
         TodoDisplayViewModels.Remove(viewModel);
     }
     private void OnTodoListChanged() {
