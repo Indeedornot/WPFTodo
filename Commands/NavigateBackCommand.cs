@@ -7,11 +7,11 @@ public class NavigateBackCommand : CommandBase {
         _navigationBackService = navigationBackService;
     }
 
-    public override bool CanExecute(object parameter) {
+    public override bool CanExecute(object? parameter) {
         return _navigationBackService.CanNavigate() && base.CanExecute(parameter);
     }
 
-    public override void Execute(object parameter) {
+    public override void Execute(object? parameter) {
         _navigationBackService.Navigate();
     }
 }

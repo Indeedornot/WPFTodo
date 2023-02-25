@@ -22,7 +22,7 @@ public class AppStore {
             LoadingChanged?.Invoke(value);
         }
     }
-    public event Action<bool> LoadingChanged;
+    public event Action<bool>? LoadingChanged;
 
     private List<Todo> todos { get; set; } = new();
     /// <summary>
@@ -35,11 +35,11 @@ public class AppStore {
         }
     }
 
-    public event Action TodoListChanged;
+    public event Action? TodoListChanged;
 
-    public event Action<Todo> TodoAdded;
-    public event Action<Todo> TodoRemoved;
-    public event Action<Todo> TodoChanged;
+    public event Action<Todo>? TodoAdded;
+    public event Action<Todo>? TodoRemoved;
+    public event Action<Todo>? TodoChanged;
 
     private readonly IPersistentDataManager _dataManager;
     public AppStore(IPersistentDataManager dataManager) {

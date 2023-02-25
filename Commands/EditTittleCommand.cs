@@ -14,7 +14,7 @@ public class EditTittleCommand : CommandBase {
         _viewModel = viewModel;
     }
 
-    public override void Execute(object parameter) {
+    public override void Execute(object? parameter) {
         _viewModel.TitleConfirmed = false;
     }
 }

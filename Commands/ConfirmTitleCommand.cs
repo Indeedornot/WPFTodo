@@ -17,11 +17,11 @@ public class ConfirmTitleCommand : CommandBase {
         _viewModel.PropertyChanged += (_, _) => OnCanExecutedChanged();
     }
 
-    public override bool CanExecute(object parameter) {
+    public override bool CanExecute(object? parameter) {
         return _viewModel.HasTitle && base.CanExecute(parameter);
     }
 
-    public override void Execute(object parameter) {
+    public override void Execute(object? parameter) {
         _viewModel.TitleConfirmed = true;
     }
 }

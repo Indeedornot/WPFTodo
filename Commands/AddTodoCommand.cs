@@ -22,11 +22,11 @@ public class AddTodoCommand : CommandBase {
         _appStore = appStore;
     }
 
-    public override bool CanExecute(object parameter) {
+    public override bool CanExecute(object? parameter) {
         return _viewModel.HasDescription && _viewModel.HasTitle && base.CanExecute(parameter);
     }
 
-    public override void Execute(object parameter) {
+    public override void Execute(object? parameter) {
         Todo newTodo = new(_viewModel.Title, _viewModel.Description);
         _appStore.AddTodo(newTodo);
 
