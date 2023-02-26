@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -62,7 +62,6 @@ public class TodoDisplayViewModel : ViewModelBase {
     private void OpenMoreMenu() {
         DisplayMoreMenu = true;
     }
-
     private void CloseMoreMenu() {
         DisplayMoreMenu = false;
     }

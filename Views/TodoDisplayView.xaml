@@ -30,8 +30,10 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="auto" />
+				<ColumnDefinition Width="auto" />
 			</Grid.ColumnDefinitions>
 
+			<!--  Text & Button  -->
 			<Grid
 				Grid.Column="0"
 				Margin="14,14">
@@ -41,6 +43,7 @@
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions />
 
+				<!--  Text  -->
 				<StackPanel>
 					<TextBlock
 						d:Text="Tell Mark"
@@ -59,6 +62,7 @@
 						TextWrapping="Wrap" />
 				</StackPanel>
 
+				<!--  Button  -->
 				<Viewbox
 					Grid.Column="1"
 					MaxWidth="60"
@@ -98,12 +102,19 @@
 					</Button>
 
 				</Viewbox>
+
+
 			</Grid>
 
+			<!--  Open MoreMenu  -->
+			<ToggleButton
+				Grid.Column="1"
+				Width="15"
+				BorderThickness="0"
+				IsChecked="{Binding DisplayMoreMenu}" />
 			<!--  MoreMenu  -->
 			<Grid
-				Grid.Column="1"
-				RenderTransformOrigin="1,0"
+				Grid.Column="2"
 				Visibility="{Binding DisplayMoreMenu, Converter={StaticResource boolToVis}}">
 				<Border
 					x:Name="MenuMoreMask"
