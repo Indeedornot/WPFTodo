@@ -28,4 +28,14 @@ public class Todo {
         target.AddedAt = AddedAt;
         target.CompletedAt = CompletedAt;
     }
+
+    public Todo Duplicate() {
+        return new Todo() {
+            Id = Guid.NewGuid().ToString(),
+            Title = Title,
+            Description = Description,
+            AddedAt = AddedAt,
+            CompletedAt = CompletedAt
+        };
+    }
 }

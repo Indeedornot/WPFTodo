@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -38,9 +38,14 @@ public class TodoDisplayViewModel : ViewModelBase {
     }
 
     public RelayCommand ToggleCompletedCommand { get; }
+
+    //Open/Close More Menu
     public RelayCommand OpenMoreMenuCommand { get; set; }
     public RelayCommand CloseMoreMenuCommand { get; set; }
+
+    //More Menu
     public RelayCommand RemoveTodoCommand { get; set; }
+    public RelayCommand DuplicateTodoCommand { get; set; }
 
     private readonly AppStore _appStore;
     public TodoDisplayViewModel(Todo todo, AppStore appStore) {
@@ -51,6 +56,7 @@ public class TodoDisplayViewModel : ViewModelBase {
         OpenMoreMenuCommand = new RelayCommand(OpenMoreMenu);
         CloseMoreMenuCommand = new RelayCommand(CloseMoreMenu);
         RemoveTodoCommand = new RelayCommand(RemoveTodo);
+        DuplicateTodoCommand = new RelayCommand(DuplicateTodo);
     }
 
     private void ToggleComplete() {
@@ -68,5 +74,9 @@ public class TodoDisplayViewModel : ViewModelBase {
 
     private void RemoveTodo() {
         _appStore.RemoveTodo(_todo);
+    }
+    private void DuplicateTodo() {
+        Todo copy = Todo.Duplicate();
+        _appStore.AddTodo(copy);
     }
 }

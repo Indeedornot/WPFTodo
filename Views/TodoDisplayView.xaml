@@ -135,14 +135,25 @@
 							</Style>
 						</StackPanel.Resources>
 
-						<icons:PackIconIonicons
-							Padding="2"
-							Background="Yellow"
-							Kind="CreateMD" />
-						<icons:PackIconForkAwesome
-							Padding="2"
-							Background="Blue"
-							Kind="FilesOutline" />
+						<Button
+							Padding="0"
+							BorderThickness="0">
+							<icons:PackIconIonicons
+								Padding="2"
+								Background="Yellow"
+								Kind="CreateMD" />
+						</Button>
+
+						<Button
+							Padding="0"
+							BorderThickness="0"
+							Command="{Binding DuplicateTodoCommand}">
+							<icons:PackIconForkAwesome
+								Padding="2"
+								Background="Blue"
+								Kind="FilesOutline" />
+						</Button>
+
 						<Button
 							Padding="0"
 							BorderThickness="0"
