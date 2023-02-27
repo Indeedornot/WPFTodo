@@ -53,13 +53,13 @@ public class TodoDisplayViewModel : ViewModelBase {
     public RelayCommand ToggleCompletedCommand { get; }
 
     //Open/Close More Menu
-    public RelayCommand OpenMoreMenuCommand { get; set; }
-    public RelayCommand CloseMoreMenuCommand { get; set; }
+    public RelayCommand OpenMoreMenuCommand { get; }
+    public RelayCommand CloseMoreMenuCommand { get; }
 
     //More Menu
-    public RelayCommand RemoveTodoCommand { get; set; }
-    public RelayCommand DuplicateTodoCommand { get; set; }
-    public RelayCommand ToggleEditTodoCommand { get; set; }
+    public RelayCommand RemoveTodoCommand { get; }
+    public RelayCommand DuplicateTodoCommand { get; }
+    public RelayCommand ToggleEditTodoCommand { get; }
 
     //Do to how WPF handles events for TextChanged we need to use
     ///a middle-man property rather than command
