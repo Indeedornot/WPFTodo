@@ -10,12 +10,16 @@ using WPFTodo.Models;
 using WPFTodo.Stores;
 
 namespace WPFTodo.ViewModels;
-public class TodoDisplayViewModel : ViewModelBase {
+public class TodoDisplayViewModel : ViewModelBase
+{
     private Todo _todo;
-    public Todo Todo {
+    public Todo Todo
+    {
         get => _todo;
-        set {
-            if (_todo == value) {
+        set
+        {
+            if (_todo == value)
+            {
                 return;
             }
 
@@ -25,10 +29,13 @@ public class TodoDisplayViewModel : ViewModelBase {
     }
 
     private bool displayMoreMenu = false;
-    public bool DisplayMoreMenu {
+    public bool DisplayMoreMenu
+    {
         get => displayMoreMenu;
-        set {
-            if (displayMoreMenu == value) {
+        set
+        {
+            if (displayMoreMenu == value)
+            {
                 return;
             }
 
@@ -38,10 +45,13 @@ public class TodoDisplayViewModel : ViewModelBase {
     }
 
     private bool isEdditing = false;
-    public bool IsEditting {
+    public bool IsEditting
+    {
         get => isEdditing;
-        set {
-            if (isEdditing == value) {
+        set
+        {
+            if (isEdditing == value)
+            {
                 return;
             }
 
@@ -63,18 +73,22 @@ public class TodoDisplayViewModel : ViewModelBase {
 
     //Do to how WPF handles events for TextChanged we need to use
     ///a middle-man property rather than command
-    public string NewTitle {
+    public string NewTitle
+    {
         get => Todo.Title;
-        set {
+        set
+        {
             Todo.Title = value;
 
             OnPropertyChanged(nameof(Todo));
             _appStore.ChangeTodo(_todo);
         }
     }
-    public string NewDescription {
+    public string NewDescription
+    {
         get => Todo.Description;
-        set {
+        set
+        {
             Todo.Description = value;
 
             OnPropertyChanged(nameof(Todo));
@@ -83,7 +97,8 @@ public class TodoDisplayViewModel : ViewModelBase {
     }
 
     private readonly AppStore _appStore;
-    public TodoDisplayViewModel(Todo todo, AppStore appStore) {
+    public TodoDisplayViewModel(Todo todo, AppStore appStore)
+    {
         _todo = todo;
         _appStore = appStore;
 
@@ -97,28 +112,34 @@ public class TodoDisplayViewModel : ViewModelBase {
         ToggleEditTodoCommand = new RelayCommand(ToggleEditTodo);
     }
 
-    private void ToggleComplete() {
+    private void ToggleComplete()
+    {
         _todo.CompletedAt = _todo.CompletedAt == null ? DateTime.Now : null;
         _appStore.ChangeTodo(_todo);
         OnPropertyChanged(nameof(Todo));
     }
 
-    private void OpenMoreMenu() {
+    private void OpenMoreMenu()
+    {
         DisplayMoreMenu = true;
     }
-    private void CloseMoreMenu() {
+    private void CloseMoreMenu()
+    {
         DisplayMoreMenu = false;
     }
 
-    private void RemoveTodo() {
+    private void RemoveTodo()
+    {
         _appStore.RemoveTodo(_todo);
     }
-    private void DuplicateTodo() {
+    private void DuplicateTodo()
+    {
         Todo copy = Todo.Duplicate();
         _appStore.AddTodo(copy);
     }
 
-    private void ToggleEditTodo() {
+    private void ToggleEditTodo()
+    {
         IsEditting = !IsEditting;
     }
 }

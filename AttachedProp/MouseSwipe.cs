@@ -4,17 +4,20 @@ using System.Windows.Input;
 
 namespace WPFTodo.AttachedProp;
 
-static class MouseSwipe {
+static class MouseSwipe
+{
     #region Properties
     private static readonly DependencyProperty SubscribedCountProperty = DependencyProperty.RegisterAttached(
         "SubscribedCount",
         typeof(int),
         typeof(MouseSwipe),
         new PropertyMetadata(0));
-    private static void SetSubscribedCount(DependencyObject element, int value) {
+    private static void SetSubscribedCount(DependencyObject element, int value)
+    {
         element.SetValue(SubscribedCountProperty, value);
     }
-    private static int GetSubscribedCount(DependencyObject element) {
+    private static int GetSubscribedCount(DependencyObject element)
+    {
         return (int)element.GetValue(SubscribedCountProperty);
     }
 
@@ -23,10 +26,12 @@ static class MouseSwipe {
         typeof(Point?),
         typeof(MouseSwipe),
         new PropertyMetadata(null));
-    private static void SetStartPosition(DependencyObject element, Point? value) {
+    private static void SetStartPosition(DependencyObject element, Point? value)
+    {
         element.SetValue(StartPositionProperty, value);
     }
-    private static Point? GetStartPosition(DependencyObject element) {
+    private static Point? GetStartPosition(DependencyObject element)
+    {
         return (Point?)element.GetValue(StartPositionProperty);
     }
 
@@ -35,10 +40,12 @@ static class MouseSwipe {
         typeof(float),
         typeof(MouseSwipe),
         new PropertyMetadata(1f));
-    public static void SetSensitivity(DependencyObject element, float value) {
+    public static void SetSensitivity(DependencyObject element, float value)
+    {
         element.SetValue(SensitivityProperty, value);
     }
-    public static float GetSensitivity(DependencyObject element) {
+    public static float GetSensitivity(DependencyObject element)
+    {
         return (float)element.GetValue(SensitivityProperty);
     }
 
@@ -47,10 +54,12 @@ static class MouseSwipe {
         typeof(ICommand),
         typeof(MouseSwipe),
         new PropertyMetadata(default(ICommand), OnCommandChanged));
-    public static void SetLeftCommand(DependencyObject element, ICommand value) {
+    public static void SetLeftCommand(DependencyObject element, ICommand value)
+    {
         element.SetValue(LeftCommandProperty, value);
     }
-    public static ICommand GetLeftCommand(DependencyObject element) {
+    public static ICommand GetLeftCommand(DependencyObject element)
+    {
         return (ICommand)element.GetValue(LeftCommandProperty);
     }
 
@@ -59,10 +68,12 @@ static class MouseSwipe {
         typeof(ICommand),
         typeof(MouseSwipe),
         new PropertyMetadata(default(ICommand), OnCommandChanged));
-    public static void SetRightCommand(DependencyObject element, ICommand value) {
+    public static void SetRightCommand(DependencyObject element, ICommand value)
+    {
         element.SetValue(RightCommandProperty, value);
     }
-    public static ICommand GetRightCommand(DependencyObject element) {
+    public static ICommand GetRightCommand(DependencyObject element)
+    {
         return (ICommand)element.GetValue(RightCommandProperty);
     }
 
@@ -71,10 +82,12 @@ static class MouseSwipe {
         typeof(ICommand),
         typeof(MouseSwipe),
         new PropertyMetadata(default(ICommand), OnCommandChanged));
-    public static void SetUpCommand(DependencyObject element, ICommand value) {
+    public static void SetUpCommand(DependencyObject element, ICommand value)
+    {
         element.SetValue(UpCommandProperty, value);
     }
-    public static ICommand GetUpCommand(DependencyObject element) {
+    public static ICommand GetUpCommand(DependencyObject element)
+    {
         return (ICommand)element.GetValue(UpCommandProperty);
     }
 
@@ -83,16 +96,19 @@ static class MouseSwipe {
         typeof(ICommand),
         typeof(MouseSwipe),
         new PropertyMetadata(default(ICommand), OnCommandChanged));
-    public static void SetDownCommand(DependencyObject element, ICommand value) {
+    public static void SetDownCommand(DependencyObject element, ICommand value)
+    {
         element.SetValue(DownCommandProperty, value);
     }
-    public static ICommand GetDownCommand(DependencyObject element) {
+    public static ICommand GetDownCommand(DependencyObject element)
+    {
         return (ICommand)element.GetValue(DownCommandProperty);
     }
     #endregion
 
     #region Event Handlers
-    private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+    private static void OnCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
         var element = d as UIElement;
         if (element == null) return;
 
@@ -105,11 +121,13 @@ static class MouseSwipe {
         int currSubscribed = GetSubscribedCount(element);
 
         //When command is changed to null
-        if (!IsNewCommand && IsOldCommand) {
+        if (!IsNewCommand && IsOldCommand)
+        {
             SetSubscribedCount(element, currSubscribed - 1);
 
             //if no more listeners - unsubscribe
-            if (currSubscribed - 1 == 0) {
+            if (currSubscribed - 1 == 0)
+            {
                 element.PreviewMouseLeftButtonDown -= OnPreviewMouseButtonDown;
                 element.PreviewMouseLeftButtonUp -= OnPreviewMouseButtonUp;
                 element.MouseLeave -= OnMouseLeave;
@@ -129,14 +147,16 @@ static class MouseSwipe {
         element.MouseLeave += OnMouseLeave;
     }
 
-    private static void OnMouseLeave(object sender, MouseEventArgs e) {
+    private static void OnMouseLeave(object sender, MouseEventArgs e)
+    {
         var element = sender as UIElement;
         if (element == null) return;
 
         SetStartPosition(element, null);
     }
 
-    private static void OnPreviewMouseButtonDown(object sender, MouseEventArgs e) {
+    private static void OnPreviewMouseButtonDown(object sender, MouseEventArgs e)
+    {
         var element = sender as UIElement;
         if (element == null) return;
 
@@ -144,7 +164,8 @@ static class MouseSwipe {
         SetStartPosition(element, start);
     }
 
-    private static void OnPreviewMouseButtonUp(object sender, MouseEventArgs e) {
+    private static void OnPreviewMouseButtonUp(object sender, MouseEventArgs e)
+    {
         var element = sender as UIElement;
         if (element == null) return;
 
@@ -158,17 +179,21 @@ static class MouseSwipe {
         Vector travel = end - start;
         if (travel.Length < sensitivity) return;
 
-        if (travel.X < -sensitivity) {
+        if (travel.X < -sensitivity)
+        {
             GetLeftCommand(element)?.Execute(null);
         }
-        else if (travel.X > sensitivity) {
+        else if (travel.X > sensitivity)
+        {
             GetRightCommand(element)?.Execute(null);
         }
 
-        if (travel.Y < -sensitivity) {
+        if (travel.Y < -sensitivity)
+        {
             GetUpCommand(element)?.Execute(null);
         }
-        else if (travel.Y > sensitivity) {
+        else if (travel.Y > sensitivity)
+        {
             GetDownCommand(element)?.Execute(null);
         }
 

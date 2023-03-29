@@ -8,7 +8,8 @@ using System.Windows.Media;
 
 namespace WPFTodo.AttachedProp;
 
-internal static class UIHelper {
+internal static class UIHelper
+{
     /// <summary>
     /// Finds a Child of a given item in the visual tree. 
     /// </summary>
@@ -19,19 +20,22 @@ internal static class UIHelper {
     /// If not matching item can be found, 
     /// a null parent is being returned.</returns>
     public static T? FindChild<T>(DependencyObject parent)
-       where T : DependencyObject {
+       where T : DependencyObject
+    {
         // Confirm parent and childName are valid. 
         if (parent == null) return null;
 
         T? foundChild = null;
 
         int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
-        for (int i = 0; i < childrenCount; i++) {
+        for (int i = 0; i < childrenCount; i++)
+        {
             var child = VisualTreeHelper.GetChild(parent, i);
 
             // If the child is not of the request child type child
             T? childType = child as T;
-            if (childType != null) {
+            if (childType != null)
+            {
                 // child element found.
                 foundChild = (T)child;
                 break;
@@ -48,11 +52,13 @@ internal static class UIHelper {
         return foundChild;
     }
 
-    internal static T? FindParent<T>(DependencyObject element) where T : FrameworkElement {
+    internal static T? FindParent<T>(DependencyObject element) where T : FrameworkElement
+    {
         FrameworkElement? parent = VisualTreeHelper.GetParent(element) as FrameworkElement;
         if (parent == null) return null;
 
-        if (parent is T correctlyTyped) {
+        if (parent is T correctlyTyped)
+        {
             return correctlyTyped;
         }
 

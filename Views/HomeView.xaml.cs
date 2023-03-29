@@ -18,8 +18,10 @@ namespace WPFTodo.Views;
 /// <summary>
 /// Interaction logic for HomeView.xaml
 /// </summary>
-public partial class HomeView : UserControl {
-    public HomeView() {
+public partial class HomeView : UserControl
+{
+    public HomeView()
+    {
         InitializeComponent();
     }
 }

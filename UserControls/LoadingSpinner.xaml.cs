@@ -4,8 +4,10 @@ namespace WPFTodo.UserControls;
 /// <summary>
 /// Interaction logic for LoadingSpinner.xaml
 /// </summary>
-public partial class LoadingSpinner : UserControl {
-    public LoadingSpinner() {
+public partial class LoadingSpinner : UserControl
+{
+    public LoadingSpinner()
+    {
         InitializeComponent();
     }
 }

@@ -8,14 +8,17 @@ using WPFTodo.Services.Provider;
 
 namespace WPFTodo.Stores;
 
-public class AppStore {
+public class AppStore
+{
     private bool _isLoading;
     /// <summary>
     /// Signals fetching of initial data or refetching weatherForecasts
     /// </summary>
-    public bool IsLoading {
+    public bool IsLoading
+    {
         get => _isLoading;
-        private set {
+        private set
+        {
             if (_isLoading == value) return;
 
             _isLoading = value;
@@ -28,8 +31,10 @@ public class AppStore {
     /// <summary>
     /// Collection of todos, Sorted by AddedAt
     /// </summary>
-    public IEnumerable<Todo> Todos {
-        get => todos; private set {
+    public IEnumerable<Todo> Todos
+    {
+        get => todos; private set
+        {
             todos = value.ToList();
             TodoListChanged?.Invoke();
         }
@@ -42,22 +47,26 @@ public class AppStore {
     public event Action<Todo>? TodoChanged;
 
     private readonly IPersistentDataManager _dataManager;
-    public AppStore(IPersistentDataManager dataManager) {
+    public AppStore(IPersistentDataManager dataManager)
+    {
         _dataManager = dataManager;
         _initializeTask = new(Initialize);
     }
 
-    public void AddTodo(Todo todo) {
+    public void AddTodo(Todo todo)
+    {
         todos.Add(todo);
         TodoAdded?.Invoke(todo);
     }
 
-    public void RemoveTodo(Todo todo) {
+    public void RemoveTodo(Todo todo)
+    {
         todos.Remove(todo);
         TodoRemoved?.Invoke(todo);
     }
 
-    public void ChangeTodo(Todo todo) {
+    public void ChangeTodo(Todo todo)
+    {
         Todo listTodo = Todos.First(x => x.Id == todo.Id);
         todo.CopyTo(listTodo);
         TodoChanged?.Invoke(todo);
@@ -68,11 +77,14 @@ public class AppStore {
     /// <br/> Initialy loads the data from the persistent storage and fetches weather
     /// </summary>
     /// <returns></returns>
-    public async Task Load() {
-        try {
+    public async Task Load()
+    {
+        try
+        {
             await _initializeTask.Value;
         }
-        catch (Exception) {
+        catch (Exception)
+        {
             _initializeTask = new(Initialize);
             IsLoading = false;
         }
@@ -81,27 +93,33 @@ public class AppStore {
     private Lazy<Task> _initializeTask;
     public bool IsInitialized => _initializeTask.IsValueCreated;
 
-    private async Task Initialize() {
+    private async Task Initialize()
+    {
         IsLoading = true;
 
         PersistentData? persistentData = GetPersistentData();
-        if (persistentData != null) {
+        if (persistentData != null)
+        {
             todos = persistentData.Todos.OrderByDescending(x => x.AddedAt).ToList();
         }
 
         IsLoading = false;
     }
 
-    private PersistentData? GetPersistentData() {
-        try {
+    private PersistentData? GetPersistentData()
+    {
+        try
+        {
             return _dataManager.GetPersistentData();
         }
-        catch {
+        catch
+        {
             return null;
         }
     }
 
-    public PersistentData PersistentData => new() {
+    public PersistentData PersistentData => new()
+    {
         Todos = todos.OrderByDescending(x => x.AddedAt).ToList()
     };
 

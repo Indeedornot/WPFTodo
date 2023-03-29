@@ -9,7 +9,8 @@ using WPFTodo.Services.NavigationService;
 using WPFTodo.Stores;
 
 namespace WPFTodo.ViewModels;
-class MainViewModel : ViewModelBase {
+class MainViewModel : ViewModelBase
+{
     private readonly NavigationStore _navigationStore;
     private readonly AppStore _appStore;
 
@@ -17,7 +18,8 @@ class MainViewModel : ViewModelBase {
 
     public ViewModelBase? CurrentViewModel => _navigationStore.CurrentViewModel;
 
-    public MainViewModel(NavigationStore navigationStore, AppStore appStore, NavigationService<HomeViewModel> navigationHome) {
+    public MainViewModel(NavigationStore navigationStore, AppStore appStore, NavigationService<HomeViewModel> navigationHome)
+    {
         _navigationHome = navigationHome;
         _appStore = appStore;
 
@@ -27,12 +29,14 @@ class MainViewModel : ViewModelBase {
         SetInitialView();
     }
 
-    private async Task SetInitialView() {
+    private async Task SetInitialView()
+    {
         await _appStore.Load();
         _navigationHome.Navigate();
     }
 
-    private void OnCurrentViewModelChanged() {
+    private void OnCurrentViewModelChanged()
+    {
         OnPropertyChanged(nameof(CurrentViewModel));
     }
 }

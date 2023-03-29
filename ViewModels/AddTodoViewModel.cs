@@ -11,11 +11,14 @@ using WPFTodo.Models;
 using WPFTodo.Stores;
 
 namespace WPFTodo.ViewModels;
-public class AddTodoViewModel : ViewModelBase {
+public class AddTodoViewModel : ViewModelBase
+{
     private string title = string.Empty;
-    public string Title {
+    public string Title
+    {
         get => title;
-        set {
+        set
+        {
             if (value == title) return;
 
             title = value;
@@ -26,9 +29,11 @@ public class AddTodoViewModel : ViewModelBase {
     public bool HasTitle => !string.IsNullOrWhiteSpace(Title);
 
     private bool _titleConfirmed;
-    public bool TitleConfirmed {
+    public bool TitleConfirmed
+    {
         get => _titleConfirmed;
-        set {
+        set
+        {
             if (_titleConfirmed == value) return;
 
             _titleConfirmed = value;
@@ -37,9 +42,11 @@ public class AddTodoViewModel : ViewModelBase {
     }
 
     private string description = string.Empty;
-    public string Description {
+    public string Description
+    {
         get => description;
-        set {
+        set
+        {
             if (value == description) return;
 
             description = value;
@@ -54,7 +61,8 @@ public class AddTodoViewModel : ViewModelBase {
     public RelayCommand ConfirmTitleCommand { get; }
 
     private readonly AppStore _appStore;
-    public AddTodoViewModel(AppStore appStore) {
+    public AddTodoViewModel(AppStore appStore)
+    {
         _appStore = appStore;
 
         AddTodoCommand = new RelayCommand(AddTodo, CanAddTodo);
@@ -66,7 +74,8 @@ public class AddTodoViewModel : ViewModelBase {
         EditTittleCommand = new RelayCommand(EditTitle);
     }
 
-    private void AddTodo() {
+    private void AddTodo()
+    {
         Todo newTodo = new(Title, Description);
         _appStore.AddTodo(newTodo);
 
@@ -74,18 +83,22 @@ public class AddTodoViewModel : ViewModelBase {
         Title = string.Empty;
         TitleConfirmed = false;
     }
-    private bool CanAddTodo() {
+    private bool CanAddTodo()
+    {
         return HasDescription && HasTitle;
     }
 
-    private void ConfirmTitle() {
+    private void ConfirmTitle()
+    {
         TitleConfirmed = true;
     }
-    private bool CanConfirmTitle() {
+    private bool CanConfirmTitle()
+    {
         return HasTitle;
     }
 
-    private void EditTitle() {
+    private void EditTitle()
+    {
         TitleConfirmed = false;
     }
 }

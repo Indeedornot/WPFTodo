@@ -9,13 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WPFTodo.Converters;
-public static class EnumHelper {
-    public static string Description(this Enum value) {
+public static class EnumHelper
+{
+    public static string Description(this Enum value)
+    {
         FieldInfo? enumField = value.GetType().GetField(value.ToString());
         IEnumerable<Attribute>? attributes = enumField?.GetCustomAttributes();
         DescriptionAttribute? descriptionAttr = attributes?.OfType<DescriptionAttribute>().FirstOrDefault();
 
-        if (descriptionAttr != null) {
+        if (descriptionAttr != null)
+        {
             return descriptionAttr.Description;
         }
 
@@ -26,8 +29,10 @@ public static class EnumHelper {
         return ti.ToTitleCase(dummyDescription);
     }
 
-    public static IEnumerable<ValueDescription> GetAllValuesAndDescriptions(Type t) {
-        if (!t.IsEnum) {
+    public static IEnumerable<ValueDescription> GetAllValuesAndDescriptions(Type t)
+    {
+        if (!t.IsEnum)
+        {
             throw new ArgumentException($"{nameof(t)} must be an enum type");
         }
 
@@ -36,7 +41,8 @@ public static class EnumHelper {
     }
 }
 
-public class ValueDescription {
+public class ValueDescription
+{
     public object Value { get; set; }
     public string Description { get; set; }
 }

@@ -20,8 +20,10 @@ namespace WPFTodo.Views;
 /// <summary>
 /// Interaction logic for AddTodoView.xaml
 /// </summary>
-public partial class AddTodoView : UserControl {
-    public AddTodoView() {
+public partial class AddTodoView : UserControl
+{
+    public AddTodoView()
+    {
         InitializeComponent();
     }
 }

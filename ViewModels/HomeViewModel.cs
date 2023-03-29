@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.DirectoryServices;
@@ -9,11 +9,13 @@ using WPFTodo.Stores;
 
 namespace WPFTodo.ViewModels;
 
-class HomeViewModel : ViewModelBase {
+class HomeViewModel : ViewModelBase
+{
     public ObservableCollection<TodoDisplayViewModel> TodoDisplayViewModels { get; set; }
     public AddTodoViewModel AddTodoViewModel { get; }
 
-    public enum SortOptions {
+    public enum SortOptions
+    {
         Newest,
         Oldest,
         [Description("Latest Completed")]
@@ -28,9 +30,11 @@ class HomeViewModel : ViewModelBase {
         NotCompleted,
     }
     private SortOptions _sortBy = SortOptions.Newest;
-    public SortOptions SortBy {
+    public SortOptions SortBy
+    {
         get => _sortBy;
-        set {
+        set
+        {
             if (_sortBy == value) return;
 
             _sortBy = value;
@@ -40,7 +44,8 @@ class HomeViewModel : ViewModelBase {
     }
 
     private readonly AppStore _appStore;
-    public HomeViewModel(AppStore appStore) {
+    public HomeViewModel(AppStore appStore)
+    {
         _appStore = appStore;
 
         var todoDisplayVMs = _appStore.Todos.Select(todo => TodoToTodoDisplayVM(todo));
@@ -54,8 +59,10 @@ class HomeViewModel : ViewModelBase {
         _appStore.TodoListChanged += OnTodoListChanged;
     }
 
-    private void SortTodos() {
-        IEnumerable<TodoDisplayViewModel> sortedTodoVMs = SortBy switch {
+    private void SortTodos()
+    {
+        IEnumerable<TodoDisplayViewModel> sortedTodoVMs = SortBy switch
+        {
             SortOptions.Newest => TodoDisplayViewModels.OrderByDescending(todoVM => todoVM.Todo.AddedAt),
             SortOptions.Oldest => TodoDisplayViewModels.OrderBy(todoVM => todoVM.Todo.AddedAt),
             SortOptions.LatestCompleted => TodoDisplayViewModels.OrderByDescending(todoVM => todoVM.Todo.IsCompleted).ThenByDescending(todoVM => todoVM.Todo.CompletedAt),
@@ -70,15 +77,18 @@ class HomeViewModel : ViewModelBase {
         OnPropertyChanged(nameof(TodoDisplayViewModels));
     }
 
-    private void OnTodoAdded(Todo todo) {
+    private void OnTodoAdded(Todo todo)
+    {
         TodoDisplayViewModels.Insert(0, TodoToTodoDisplayVM(todo));
     }
-    private void OnTodoRemoved(Todo todo) {
+    private void OnTodoRemoved(Todo todo)
+    {
         var viewModel = TodoDisplayViewModels.First(x => x.Todo.Id == todo.Id);
         viewModel.Dispose();
         TodoDisplayViewModels.Remove(viewModel);
     }
-    private void OnTodoListChanged() {
+    private void OnTodoListChanged()
+    {
         var todoDisplayVMs = TodosToTodoDisplayVMs(_appStore.Todos);
         TodoDisplayViewModels = new(todoDisplayVMs);
         SortTodos();
@@ -86,14 +96,17 @@ class HomeViewModel : ViewModelBase {
         OnPropertyChanged(nameof(TodoDisplayViewModels));
     }
 
-    private IEnumerable<TodoDisplayViewModel> TodosToTodoDisplayVMs(IEnumerable<Todo> Todos) {
+    private IEnumerable<TodoDisplayViewModel> TodosToTodoDisplayVMs(IEnumerable<Todo> Todos)
+    {
         return Todos.Select(todo => TodoToTodoDisplayVM(todo));
     }
-    private TodoDisplayViewModel TodoToTodoDisplayVM(Todo todo) {
+    private TodoDisplayViewModel TodoToTodoDisplayVM(Todo todo)
+    {
         return new(todo, _appStore);
     }
 
-    public override void Dispose() {
+    public override void Dispose()
+    {
         base.Dispose();
         _appStore.TodoAdded -= OnTodoAdded;
         _appStore.TodoRemoved -= OnTodoRemoved;

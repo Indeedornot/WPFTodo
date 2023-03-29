@@ -10,12 +10,15 @@ namespace WPFTodo.Views;
 /// <summary>
 /// Interaction logic for TodoDisplay.xaml
 /// </summary>
-public partial class TodoDisplayView : UserControl {
-    public TodoDisplayView() {
+public partial class TodoDisplayView : UserControl
+{
+    public TodoDisplayView()
+    {
         InitializeComponent();
     }
 
-    public double TitleFontSize {
+    public double TitleFontSize
+    {
         get => (double)GetValue(TitleFontSizeProperty);
         set => SetValue(TitleFontSizeProperty, value);
     }
@@ -26,7 +29,8 @@ public partial class TodoDisplayView : UserControl {
 
 
 
-    public double DescriptionFontSize {
+    public double DescriptionFontSize
+    {
         get => (double)GetValue(DescriptionFontSizeProperty);
         set => SetValue(DescriptionFontSizeProperty, value);
     }
